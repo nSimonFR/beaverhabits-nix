@@ -93,12 +93,17 @@ stdenv.mkDerivation {
     cp -r beaverhabits statics $out/share/beaverhabits/
 
     mkdir -p $out/bin
+    # --no-control-socket: gunicorn 25.x otherwise creates a runtime control
+    # socket at a cwd-relative path; cwd here is the read-only store dir (needed
+    # for the relative "statics" mount), so it logs a non-fatal "Control server
+    # error: Read-only file system" on every start. We don't use runtime control.
     cat > $out/bin/beaverhabits <<EOF
     #!${stdenv.shell}
     set -e
     cd $out/share/beaverhabits
     exec ${venv}/bin/gunicorn beaverhabits.main:app \
       -k uvicorn_worker.UvicornWorker -w 1 --max-requests 10000 \
+      --no-control-socket \
       --bind "\''${HOST:-127.0.0.1}:\''${PORT:-13342}"
     EOF
     chmod +x $out/bin/beaverhabits
