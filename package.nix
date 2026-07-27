@@ -29,13 +29,13 @@
 }:
 
 let
-  version = "0.9.1";
+  version = "0.10.0";
 
   rawSrc = fetchFromGitHub {
     owner = "daya0576";
     repo = "beaverhabits";
     rev = "v${version}";
-    hash = "sha256-5XIAKn08L2fm75L0tP72SZARjTQWMR31ne6RPNy1aVY=";
+    hash = "sha256-RnGb1qvPxf6uzh82JodYGrgGcujcTpl9/M0GK08xSlg=";
   };
 
   # Patch out uv-dynamic-versioning: pin a static version and reduce the build
