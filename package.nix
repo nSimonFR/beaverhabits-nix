@@ -22,6 +22,7 @@
   stdenvNoCC,
   callPackage,
   fetchFromGitHub,
+  fetchurl,
   python312,
   uv2nix,
   pyproject-nix,
@@ -68,6 +69,18 @@ let
       (lib.composeManyExtensions [
         pyproject-build-systems.overlays.default
         overlay
+        # uv.lock pins pyjwt 2.13.0 (also on upstream main), inside the range of
+        # CVE-2026-101917..102275 (< 2.14.0). fastapi-users 15 accepts <3.0.
+        # Drop once upstream's lock moves past 2.14.
+        (_final: prev: {
+          pyjwt = prev.pyjwt.overrideAttrs (_: {
+            version = "2.15.1";
+            src = fetchurl {
+              url = "https://files.pythonhosted.org/packages/50/ca/44de4e75f8aadc457f0634be3b542815078ded46dca30efb960edeecad6e/pyjwt-2.15.1-py3-none-any.whl";
+              hash = "sha256-QtWdYx93aKECimTH/1gam/dRmATa+R/FtsVuMO7F4ZM=";
+            };
+          });
+        })
       ]);
 
   # Production virtualenv containing beaverhabits + its default (non-dev) deps.
