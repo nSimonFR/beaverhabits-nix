@@ -30,13 +30,13 @@
 }:
 
 let
-  version = "0.10.0";
+  version = "0.10.1";
 
   rawSrc = fetchFromGitHub {
     owner = "daya0576";
     repo = "beaverhabits";
     rev = "v${version}";
-    hash = "sha256-RnGb1qvPxf6uzh82JodYGrgGcujcTpl9/M0GK08xSlg=";
+    hash = "sha256-Hli/5h9ArYJTlgklt3RVHUaxbF6FHkJqldeDhihRVAY=";
   };
 
   # Patch out uv-dynamic-versioning: pin a static version and reduce the build
@@ -77,7 +77,7 @@ let
             version = "2.15.1";
             src = fetchurl {
               url = "https://files.pythonhosted.org/packages/50/ca/44de4e75f8aadc457f0634be3b542815078ded46dca30efb960edeecad6e/pyjwt-2.15.1-py3-none-any.whl";
-              hash = "sha256-QtWdYx93aKECimTH/1gam/dRmATa+R/FtsVuMO7F4ZM=";
+              hash = "sha256-Hli/5h9ArYJTlgklt3RVHUaxbF6FHkJqldeDhihRVAY=";
             };
           });
         })
